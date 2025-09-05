@@ -1,0 +1,6 @@
+@Toska_HostAddress = http://localhost:5209
+
+GET {{Toska_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
