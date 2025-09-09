@@ -1,0 +1,7 @@
+# User secrets (connection strings, sensitive info)
+secrets.json
+
+# Visual Studio temporary files
+.vs/
+bin/
+obj/
