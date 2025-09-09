@@ -15,7 +15,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Toska")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+59dd30af1e870963462f9e49b271d28bf14cefb9")]
 [assembly: System.Reflection.AssemblyProductAttribute("Toska")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Toska")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
