@@ -7,7 +7,27 @@ namespace Toska.Data
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
+
+        // DbSets for each entity
         public DbSet<User> Users { get; set; } = null!;
+        public DbSet<Role> Roles { get; set; } = null!;
+        public DbSet<Permission> Permissions { get; set; } = null!;
+        public DbSet<UserRole> UserRoles { get; set; } = null!;
+        public DbSet<RolePermission> RolePermissions { get; set; } = null!;
+        public DbSet<Session> Sessions { get; set; } = null!;
+
+
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+
+
+            // This will automatically apply all IEntityTypeConfiguration<T>
+            // classes in the assembly (e.g. UserConfiguration, RoleConfiguration, etc.)
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
+        }
 
     }
 }

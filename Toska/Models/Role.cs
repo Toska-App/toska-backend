@@ -3,7 +3,7 @@
     public class Role
     {
         public int Id { get; set; }
-        public Guid PublicId { get; set; } = Guid.NewGuid(); // Use If Expose Role Management via API
+        public Guid PublicId { get; set; } // Use If Expose Role Management via API
         public string Title { get; set; } 
         public string? Description { get; set; }
         public int? ModifyBy { get; set; }
