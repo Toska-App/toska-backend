@@ -1,32 +1,27 @@
-﻿namespace Toska.Models
+﻿using Toska.Models.Enums;
+
+namespace Toska.Models
 {
     public class User
     {
-        public Guid Id { get; set; } = Guid.NewGuid();
-
-
-        //Identity info
+        public int Id { get; set; }
+        public Guid PublicId { get; set; } = Guid.NewGuid(); // Use If Exposed in APIs
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        public string Email { get; set; }
+
+        public string Password { get; set; }
+        public DateTime? BirthDate { get; set; }
+        public Gender Gender { get; set; }
+        public bool IsActive { get; set; }
+        public bool IsDeleted { get; set; }
+        public DateTime CreateDate { get; set; }
 
 
-        //Contact info
-        public string Email { get; set; } = null!;
 
-
-        //Security
-        public string PasswordHash { get; set; } = null!;
-        public string Role { get; set; } = "User";
-
-
-        //Status
-        public bool IsActive { get; set; } = true;
-
-
-        //Audit
-        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-        public DateTime UpdatedAt { get; set; }
-
+        //Navigation properties
+        public ICollection<UserRole> UserRoles { get; set; } = new List<UserRole>();
+        public ICollection<Session> Sessions { get; set; } = new List<Session>();
 
     }
 }
