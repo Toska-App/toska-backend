@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Toska.Models;
 
-namespace Toska.Data.Configurations
+namespace Toska.Data.Configurations.UserManagement
 {
     public class RolePermissionConfiguration : IEntityTypeConfiguration<RolePermission>
     {

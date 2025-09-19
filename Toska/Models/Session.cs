@@ -1,6 +1,8 @@
-﻿namespace Toska.Models
+﻿using Toska.Models.Base;
+
+namespace Toska.Models
 {
-    public class Session
+    public class Session : BaseEntity
     {
         public long Id { get; set; }
         public Guid PublicId { get; set; } // Use If Expose Active Sessions

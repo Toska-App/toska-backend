@@ -1,11 +1,12 @@
-﻿namespace Toska.Models
+﻿using Toska.Models.Base;
+
+namespace Toska.Models
 {
-    public class UserRole
+    public class UserRole : BaseEntity
     {
         public int Id { get; set; }
         public int UserId { get; set; }
         public int RoleId { get; set; }
-        public DateTime CreateDate { get; set; }
 
 
         // Navigation properties

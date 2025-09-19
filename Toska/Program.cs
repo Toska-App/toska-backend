@@ -1,5 +1,8 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Toska.Data;
+using Toska.Models;
+using Toska.Services.Users;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,6 +20,18 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 
+//...
+// Register password hasher
+builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
+
+
+//...
+builder.Services.AddScoped<IUserService, UserService>();
+
+
+//...
+// Register automapper
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 
 var app = builder.Build();
