@@ -1,21 +1,20 @@
-﻿using Toska.Models.Enums;
+﻿using Toska.Models.Base;
+using Toska.Models.Enums;
 
 namespace Toska.Models
 {
-    public class User
+    public class User : BaseEntity
     {
         public int Id { get; set; }
         public Guid PublicId { get; set; } // Use If Exposed in APIs
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string Email { get; set; }
-
-        public string Password { get; set; }
+        public required string FirstName { get; set; }
+        public required string LastName { get; set; }
+        public required string Email { get; set; }
+        public required string PasswordHash { get; set; }
         public DateTime? BirthDate { get; set; }
         public Gender Gender { get; set; }
         public bool IsActive { get; set; }
-        public bool IsDeleted { get; set; }
-        public DateTime CreateDate { get; set; }
+
 
 
 

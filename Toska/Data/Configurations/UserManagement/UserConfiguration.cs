@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Toska.Models;
 
-namespace Toska.Data.Configurations
+namespace Toska.Data.Configurations.UserManagement
 {
     public class UserConfiguration : IEntityTypeConfiguration<User>
     {
@@ -25,17 +25,17 @@ namespace Toska.Data.Configurations
             b.Property(u => u.FirstName).IsRequired().HasMaxLength(100);
             b.Property(u => u.LastName).IsRequired().HasMaxLength(100);
             b.Property(u => u.Email).IsRequired().HasMaxLength(256);
-            b.HasIndex(u => u.Email).IsUnique();
+            b.HasIndex(u => u.Email).IsUnique().HasFilter("[IsDeleted] = 0");
 
+            
 
-
-            b.Property(u => u.Password).IsRequired().HasMaxLength(512);
+            b.Property(u => u.PasswordHash).IsRequired().HasMaxLength(1024);
             b.Property(u => u.CreateDate).HasDefaultValueSql("GETUTCDATE()");
-
+            b.Property(u => u.UpdateDate).IsRequired(false);
 
 
             b.Property(u => u.BirthDate)
-                .HasColumnType("date") // Only date part stored
+                .HasColumnType("date") // stores only the year, month, and day (not time)
                 .IsRequired(false);
 
 
@@ -58,6 +58,7 @@ namespace Toska.Data.Configurations
             b.HasMany(u => u.UserRoles)
                 .WithOne(ur => ur.User)
                 .HasForeignKey(ur => ur.UserId)
+                .IsRequired(false)   // <-- make optional
                 .OnDelete(DeleteBehavior.Cascade);
 
 
@@ -65,12 +66,16 @@ namespace Toska.Data.Configurations
             b.HasMany(u => u.Sessions)
                 .WithOne(s => s.User)
                 .HasForeignKey(s => s.UserId)
+                .IsRequired(false)   // <-- make optional
                 .OnDelete(DeleteBehavior.Cascade);
 
 
 
-            // Soft-delete filter
-            b.HasQueryFilter(u => !u.IsDeleted);
+            //Configure Concurrency Token in EF Core
+            b.Property(u => u.RowVersion)
+                .IsRowVersion()
+                .IsConcurrencyToken();
+
 
 
 
