@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Text;
 using Toska.Models;
 
 namespace Toska.Data
@@ -25,9 +26,17 @@ namespace Toska.Data
 
 
             // This will automatically apply all IEntityTypeConfiguration<T>
-            // classes in the assembly (e.g. UserConfiguration, RoleConfiguration, etc.)
+            // Classes in the assembly (e.g. UserConfiguration, RoleConfiguration, etc.)
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
+
+
+
+            // Global filter: automatically exclude deleted users
+            modelBuilder.Entity<User>().HasQueryFilter(u => !u.IsDeleted);
         }
+
+
+
 
     }
 }
