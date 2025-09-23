@@ -3,7 +3,9 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Toska.Data;
 using Toska.DTOs.User;
-using Toska.Models;
+using Toska.Exceptions;
+using Toska.Models.User;
+using Toska.Utility;
 
 namespace Toska.Services.Users
 {
@@ -12,12 +14,14 @@ namespace Toska.Services.Users
         private readonly AppDbContext _context;
         private readonly IPasswordHasher<User> _passwordHasher;
         private readonly IMapper _mapper;
+        private readonly ILogger<UserService> _logger;
 
-        public UserService(AppDbContext context, IPasswordHasher<User> passwordHasher, IMapper mapper)
+        public UserService(AppDbContext context, IPasswordHasher<User> passwordHasher, IMapper mapper, ILogger<UserService> logger)
         {
             _context = context;
             _passwordHasher = passwordHasher;
             _mapper = mapper;
+            _logger = logger;
         }
 
 
@@ -27,13 +31,16 @@ namespace Toska.Services.Users
 
             //1. Normalize Email Before Checking
             dto.Email = dto.Email.Trim().ToLower();
+            _logger.LogDebug("Creating user with email {Email}", dto.Email);
+
 
 
             //2. Email Uniqueness Check
-            var exists = await _context.Users.AnyAsync(u => u.Email.ToLower() == dto.Email);
+            var exists = await _context.Users.IgnoreQueryFilters().AnyAsync(u => u.Email.ToLower() == dto.Email);
             if (exists)
             {
-                throw new InvalidOperationException("Email is already in use.");
+                _logger.LogWarning("User creation failed. Email already exists");
+                throw new DuplicateEmailException(dto.Email);
             }
 
 
@@ -43,10 +50,6 @@ namespace Toska.Services.Users
             //Create User Entity
             var user = _mapper.Map<User>(dto);
 
-            user.PublicId = Guid.NewGuid();
-            user.CreateDate = DateTime.UtcNow;
-            user.IsActive = true;
-            user.IsDeleted = false;
             user.PasswordHash = _passwordHasher.HashPassword(user, dto.Password);
 
 
@@ -55,11 +58,12 @@ namespace Toska.Services.Users
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
 
+            _logger.LogInformation("User created successfully with PublicId {PublicId}", user.PublicId);
+
 
 
             //5. Map User to UserDTO and return
             return _mapper.Map<UserDto>(user);
-
 
 
         }
