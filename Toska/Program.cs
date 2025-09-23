@@ -1,10 +1,28 @@
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
 using Toska.Data;
 using Toska.Models;
 using Toska.Services.Users;
 
 var builder = WebApplication.CreateBuilder(args);
+
+
+
+//...
+// Register Serilog
+//1. Read Configurations from appsettings.json
+Log.Logger = new LoggerConfiguration()
+    .ReadFrom.Configuration(builder.Configuration)
+    .Enrich.FromLogContext()
+    .CreateLogger();
+//2️. Replace default logger with Serilog
+builder.Host.UseSerilog();
+
+
+
+
+
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -34,7 +52,19 @@ builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 
+
+
+
 var app = builder.Build();
+
+
+
+
+//...
+// Register error handling middleware
+app.UseMiddleware<Toska.Middlewares.ErrorHandlingMiddleware>();
+
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -42,6 +72,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
 
 app.UseHttpsRedirection();
 
