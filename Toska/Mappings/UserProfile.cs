@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Toska.DTOs.User;
-using Toska.Models;
+using Toska.Models.User;
 
 namespace Toska.Mappings
 {

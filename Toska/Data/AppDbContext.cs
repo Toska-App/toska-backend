@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Text;
-using Toska.Models;
+using Toska.Models.User;
 
 namespace Toska.Data
 {

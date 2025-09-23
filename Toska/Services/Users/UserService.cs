@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Toska.Data;
 using Toska.DTOs.User;
 using Toska.Exceptions;
-using Toska.Models;
+using Toska.Models.User;
 using Toska.Utility;
 
 namespace Toska.Services.Users

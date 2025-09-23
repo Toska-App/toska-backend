@@ -1,7 +1,7 @@
 ﻿using Toska.Models.Base;
 using Toska.Models.Enums;
 
-namespace Toska.Models
+namespace Toska.Models.User
 {
     public class User : BaseEntity
     {

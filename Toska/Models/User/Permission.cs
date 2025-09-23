@@ -1,6 +1,6 @@
 ﻿using Toska.Models.Base;
 
-namespace Toska.Models
+namespace Toska.Models.User
 {
     public class Permission : BaseEntity
     {

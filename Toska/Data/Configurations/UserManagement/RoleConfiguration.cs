@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Toska.Models;
+using Toska.Models.User;
 
 namespace Toska.Data.Configurations.UserManagement
 {
